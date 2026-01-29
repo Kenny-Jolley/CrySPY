@@ -34,7 +34,10 @@ print("Please enter Molecular Weight of Unit Cell: ")
 mr = float(input())
 
 print("Please enter the number of atoms in the unit cell")
-num_of_atoms = float(input())
+num_of_atoms = int(input())
+
+print("Please enter the number types of atoms in the unit cell")
+type_of_atoms = int(input())
 
 print("Please enter number of structures generated: ")
 struc_ctr = int(input())
@@ -44,7 +47,7 @@ data_en = []
 
 for entry in range(0, struc_ctr):
 
-    directory = 'work/fin/%06i/'%entry
+    directory = 'work/%i/'%entry
     
     ofile = directory + logfile
 
@@ -227,7 +230,234 @@ else:
 pyplot.savefig('rho_en.png')
 
 print("Density vs Energy plot generated.\n")
-print("Would you like to perform DFT minimisation? (yes/no)")
+
+
+print("Would you like to perform single point DFT for all structures? (yes/no)")
+
+create_sp_dft = input()
+
+if create_sp_dft == "yes":
+
+    print("Please enter the name of the structural output from LAMMPS")
+    struc_out = input()
+
+    print("Please input the desired k point grid(# # #):")
+    k_points = input()
+
+    for low_dir in range(0, struc_ctr):
+        print(low_dir)
+        # Work in this loop so there's only one structure file open at a time
+        
+        # Get the target results directory
+
+        target_dir = 'work/%i/'%low_dir
+        
+        # Create the DFT directory
+        
+        new_dir = target_dir + "DFT"
+        
+        os.mkdir(new_dir)
+        
+        # Get the structure output from the LAMMPS calculation
+        
+        struc_file = target_dir + struc_out
+        
+        ### Write the Quantum Espresso input ###
+        
+        # Use readlines to get box
+        
+        log_dir = target_dir + logfile
+        
+        cell_out = open(log_dir, 'r').readlines()
+        log_ctr = len(cell_out)
+        
+        xlo = -1.0
+        xhi = -1.0
+        ylo = -1.0
+        yhi = -1.0
+        zlo = -1.0
+        zhi = -1.0
+        
+        xy = -1.0
+        xz = -1.0
+        yz = -1.0
+        try:
+            xlo = float(cell_out[-18].split()[2])
+            xhi = float(cell_out[-16].split()[2])
+            ylo = float(cell_out[-14].split()[2])
+            yhi = float(cell_out[-12].split()[2])
+            zlo = float(cell_out[-10].split()[2])
+            zhi = float(cell_out[-8].split()[2])
+        
+            xy = float(cell_out[-6].split()[2])
+            xz = float(cell_out[-4].split()[2])
+            yz = float(cell_out[-2].split()[2])
+        except:
+            print("Job didn't finish")
+            continue
+
+        if xlo == -1.0:
+        
+            print("WARNING: xlo not found")
+            
+        if xhi == -1.0:
+        
+            print("WARNING: xhi not found")
+            
+        if ylo == -1.0:  
+        
+            print("WARNING: ylo not found")
+            
+        if yhi == -1.0:
+        
+            print("WARNING: yhi not found")
+            
+        if zlo == -1.0:
+        
+            print("WARNING: zlo not found")
+            
+        if zhi == -1.0:
+        
+            print("WARNING: zhi not found")
+            
+        if xy == -1.0:
+        
+            print("WARNING: xy not found")
+            
+        if xz == -1.0:
+        
+            print("WARNING: xz not found")
+            
+        if yz == -1.0:
+        
+            print("WARNING: yz not found")
+        
+        # Calculate box vectors
+        
+        a1 = xhi - xlo
+        a2 = 0.0
+        a3 = 0.0
+        
+        b1 = xy
+        b2 = yhi - ylo
+        b3 = 0.0
+        
+        c1 = xz
+        c2 = yz
+        c3 = zhi - zlo
+        
+        vec_1 = str(a1) + " " + str(a2) + " " + str(a3)
+        vec_2 = str(b1) + " " + str(b2) + " " + str(b3)
+        vec_3 = str(c1) + " " + str(c2) + " " + str(c3)
+        
+        # Use readlines to get coordinates
+        
+        coords_out = open(struc_file, 'r').readlines()
+        
+        coordinates = []
+        
+        num_of_atoms = int(num_of_atoms)
+        
+        for coord_atom in range(0, num_of_atoms):
+        
+            tkr = -1 - coord_atom
+            
+            coordinates.append(coords_out[tkr])
+            
+        num_of_coords = len(coordinates)
+        
+        if num_of_coords != num_of_atoms:
+        
+            print("WARNING! Error in atom coordinate import!")
+        
+        # Create QE input file
+        
+        input_file = new_dir + "/pwscf.in"
+        
+        with open(input_file, 'a+') as in_f:
+        
+            # Write in the input file options
+             # Manually modify don't forget!!
+
+            in_f.write("&control\n")
+            
+            in_f.write("   title = \'CHNO\'\n")
+            in_f.write("   calculation = \'scf\'\n")
+            in_f.write("   nstep = 1000\n")
+            in_f.write("   restart_mode = \'from_scratch\'\n")
+            in_f.write("   pseudo_dir = \'/home/cm/cmpm4/Pseudo/SSSP_1_3_0_PBE_efficiency\'\n")
+            in_f.write("   outdir = \'./outdir/\'\n")
+            in_f.write("   etot_conv_thr = 1.0D-5\n")
+            in_f.write("   forc_conv_thr = 1.0D-5\n")           
+            
+
+            in_f.write("/\n\n") # Include blank line
+            
+            in_f.write("&system\n")
+            
+            in_f.write("   ibrav = 0\n")
+            in_f.write(f"   nat = {num_of_atoms}\n") # Modify number of atoms here
+            in_f.write(f"   ntyp = {type_of_atoms}\n") # Modify number of atom types here
+            in_f.write("   ecutwfc = 60.00\n")
+            in_f.write("   ecutrho = 480.00\n")
+            in_f.write("   occupations = \'smearing\'\n")
+            in_f.write("   degauss = 0.01\n")
+            in_f.write("   vdw_corr = \'grimme-d3\'\n")
+            in_f.write("   dftd3_version = 6\n")
+            
+            in_f.write("/\n\n") # Include blank line
+            
+            in_f.write("&electrons\n")
+            in_f.write("conv_thr = 1.D-6\n")
+            in_f.write("mixing_beta = 0.5D0\n")
+            in_f.write("diagonalization = \'david\'\n")
+            in_f.write("/\n\n") # Include blank line
+            
+            
+            # Atomic Species will need to be changed if the atom species change
+            in_f.write("ATOMIC_SPECIES\n")
+            
+            in_f.write("   H  1.008  H.pbe-rrkjus_psl.1.0.0.UPF\n")
+            in_f.write("   C  12.011 C.pbe-n-kjpaw_psl.1.0.0.UPF\n")
+            in_f.write("   N  14.00  N.pbe-n-radius_5.UPF\n")
+            in_f.write("   O  16.00  O.pbe-n-kjpaw_psl.0.1.UPF\n")
+            in_f.write("\n") # Blank line included here to make atom species change easier
+            
+            # Print the lattice parameters here
+            
+            in_f.write("CELL_PARAMETERS angstrom\n")
+            in_f.write(vec_1)
+            in_f.write("\n")
+            in_f.write(vec_2)
+            in_f.write("\n")
+            in_f.write(vec_3)
+            in_f.write("\n")
+            
+            # Print the atomic positions here
+            
+            in_f.write("ATOMIC_POSITIONS angstrom\n")
+            
+            for print_ctr in range(0, num_of_atoms):
+            
+                in_f.write(coordinates[print_ctr])
+                # in_f.write("\n")
+            
+            # Don't forget the k-points, put them here
+            # Have user input for these
+            
+            # print("Please input the desired k point grid(# # #):")
+            # k_points = input()
+            in_f.write("\nK_POINTS automatic\n")
+            kp_input = k_points + " 0 0 0"
+            in_f.write(kp_input)
+            
+            in_f.close()
+            
+        # Write BASH file
+        
+
+print("Thank you for choosing us to generate your output, have a nice day!")
+print("Would you like to perform vc-relax DFT minimisation? (yes/no)")
 
 create_dft = input()
 
@@ -300,6 +530,7 @@ if create_dft == "yes":
     # Create list of directories from the index list
     
     dir_ctr = len(target_list)
+    print(target_list)
     
     print("Please enter the name of the structural output from LAMMPS")
     struc_out = input()
@@ -314,12 +545,12 @@ if create_dft == "yes":
     # Loop connecting LAMMPS and Quantum Espresso
     
     for low_dir in range(0, dir_ctr):
-    
+        print(low_dir)
         # Work in this loop so there's only one structure file open at a time
         
         # Get the target results directory
 
-        target_dir = 'work/fin/%06i/'%target_list[low_dir]
+        target_dir = 'work/%i/'%target_list[low_dir]
         
         # Create the DFT directory
         
@@ -350,18 +581,23 @@ if create_dft == "yes":
         xy = -1.0
         xz = -1.0
         yz = -1.0
+        try:
+            xlo = float(cell_out[-18].split()[2])
+            xhi = float(cell_out[-16].split()[2])
+            ylo = float(cell_out[-14].split()[2])
+            yhi = float(cell_out[-12].split()[2])
+            zlo = float(cell_out[-10].split()[2])
+            zhi = float(cell_out[-8].split()[2])
         
-        xlo = float(cell_out[-18].split()[2])
-        xhi = float(cell_out[-16].split()[2])
-        ylo = float(cell_out[-14].split()[2])
-        yhi = float(cell_out[-12].split()[2])
-        zlo = float(cell_out[-10].split()[2])
-        zhi = float(cell_out[-8].split()[2])
-        
-        xy = float(cell_out[-6].split()[2])
-        xz = float(cell_out[-4].split()[2])
-        yz = float(cell_out[-2].split()[2])
-        
+            xy = float(cell_out[-6].split()[2])
+            xz = float(cell_out[-4].split()[2])
+            yz = float(cell_out[-2].split()[2])
+        except:
+            print("Job didn't finish")
+            continue
+
+
+
 #        for log_line in range(0, log_ctr):
 #        
 #            if bool(cell_out[log_line]):
@@ -483,37 +719,61 @@ if create_dft == "yes":
         with open(input_file, 'a+') as in_f:
         
             # Write in the input file options
-        
+             # Manually modify don't forget!!
+
             in_f.write("&control\n")
-            in_f.write("   title = \'4 CL-20\'\n")
+            
+            in_f.write("   title = \'CHNO\'\n")
             in_f.write("   calculation = \'vc-relax\'\n")
-            in_f.write("   nstep = 300\n")
+            in_f.write("   nstep = 1000\n")
             in_f.write("   restart_mode = \'from_scratch\'\n")
-            in_f.write("   pseudo_dir = \'/home/cm/cmjjm2/potentials/SSSP/\'\n")
+            in_f.write("   pseudo_dir = \'/home/c/cmpm4/Pseudo/SSSP\'\n")
             in_f.write("   outdir = \'./outdir/\'\n")
+            in_f.write("   etot_conv_thr = 1.0D-5\n")
+            in_f.write("   forc_conv_thr = 1.0D-5\n")           
+            
+
             in_f.write("/\n\n") # Include blank line
+            
             in_f.write("&system\n")
+            
             in_f.write("   ibrav = 0\n")
-            in_f.write("   nat = 144\n") # Modify number of atoms here
-            in_f.write("   ntyp = 4\n") # Modify number of atom types here
+            in_f.write(f"   nat = {num_of_atoms}\n") # Modify number of atoms here
+            in_f.write(f"   ntyp = {type_of_atoms}\n") # Modify number of atom types here
             in_f.write("   ecutwfc = 60.00\n")
             in_f.write("   ecutrho = 480.00\n")
             in_f.write("   occupations = \'smearing\'\n")
-            in_f.write("   degauss = 0.1\n")
-            in_f.write("   input_dft = \'vdw-df-ob86\'\n")
+            in_f.write("   degauss = 0.01\n")
+            in_f.write("   vdw_corr = \'grimme-d3\'\n")
+            in_f.write("   dftd3_version = 6\n")
+            
             in_f.write("/\n\n") # Include blank line
+            
             in_f.write("&electrons\n")
-            in_f.write("electron_maxstep = 200\n")
-            in_f.write("diagonalization = \'cg\'\n")
+            in_f.write("conv_thr = 1.D-6\n")
+            in_f.write("mixing_beta = 0.5D0\n")
+            in_f.write("diagonalization = \'david\'\n")
             in_f.write("/\n\n") # Include blank line
+            
             in_f.write("&ions\n")
+            
+            in_f.write("ion_dynamics = \'bfgs\'\n")
+            
             in_f.write("/\n\n") # Include blank line
+            
             in_f.write("&cell\n")
+            
+            in_f.write("cell_dynamics = \'bfgs\'\n")
+            in_f.write("press_conv_thr = 0.1\n")
+            in_f.write("cell_factor = 3.0\n")
+            
             in_f.write("/\n\n") # Include blank line
+            
             # Atomic Species will need to be changed if the atom species change
             in_f.write("ATOMIC_SPECIES\n")
+            
             in_f.write("   H  1.008  H.pbe-rrkjus_psl.1.0.0.UPF\n")
-            in_f.write("   C  12.01  C.pbe-n-kjpaw_psl.1.0.0.UPF\n")
+            in_f.write("   C  12.011 C.pbe-n-kjpaw_psl.1.0.0.UPF\n")
             in_f.write("   N  14.00  N.pbe-n-radius_5.UPF\n")
             in_f.write("   O  16.00  O.pbe-n-kjpaw_psl.0.1.UPF\n")
             in_f.write("\n") # Blank line included here to make atom species change easier
@@ -555,7 +815,7 @@ if create_dft == "yes":
             change_dir = "cd " + new_dir
             bash_f.write(change_dir)
             bash_f.write("\n")
-            cp_cmd = "cp ~/bin/qe_runscript_10 ."
+            cp_cmd = "cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run ."
             bash_f.write(cp_cmd)
             bash_f.write("\n")
             bash_f.write("qsub qe_runscript_10\n")

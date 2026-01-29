@@ -40,7 +40,7 @@ for line in in_data:
                         
 in_data[read_data_index] = "read_data   all_input_data\n"
 
-line_2 = "dump_modify    structure_xyzmov element H C N O\n"
+line_2 = "dump_modify    structure_xyzmov element C H N O\n"
 line_1 = "dump           structure_xyzmov 1 xyz 100000 structure_mov.xyz\n"
 
 in_data.insert((min_style_index + 2), line_2)

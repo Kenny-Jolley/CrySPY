@@ -86,7 +86,7 @@ cryspy_text = []
 cryspy_text.append("[basic]\n")
 cryspy_text.append("algo = RS\n")
 cryspy_text.append("calc_code = LAMMPS\n")
-cryspy_text.append("tot_struc = 500\n")
+cryspy_text.append("tot_struc = 100\n")
 cryspy_text.append("nstage = 1\n")
 cryspy_text.append("njob = 250\n")
 cryspy_text.append("jobcmd = qsub\n")
