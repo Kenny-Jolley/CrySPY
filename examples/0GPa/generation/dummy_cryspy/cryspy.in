@@ -1,0 +1,29 @@
+[basic]
+algo = RS
+calc_code = QE
+tot_struc = 1
+nstage = 1
+njob = 1
+jobcmd = qsub
+jobfile = qe_runscript
+   
+[structure]
+struc_mode = mol
+natot = 68
+atype = C H N O 
+nat = 24 8 16 20 
+mol_file = ddnp_mol.xyz  
+nmol = 4 
+spgnum = 1
+mindist_0 = 1.0 1.0 1.0 1.0 
+mindist_1 = 1.0 1.0 1.0 1.0 
+mindist_2 = 1.0 1.0 1.0 1.0 
+mindist_3 = 1.0 1.0 1.0 1.0 
+symprec = 0.05
+   
+[QE]
+qe_infile = pwscf.in
+qe_outfile = pwscf.out
+kppvol = 60
+   
+[option]

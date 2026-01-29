@@ -1,0 +1,510 @@
+units           real
+atom_style      full
+boundary        p p p
+
+pair_style      lj/cut 12.500
+bond_style      harmonic
+angle_style     cosine/periodic
+dihedral_style  harmonic
+improper_style  fourier
+
+pair_modify     tail yes mix arithmetic
+dielectric      1.0
+special_bonds   lj/coul 0.0 0.0 1.0
+box tilt        large
+read_data   all_input_data
+Reading data file ...
+  triclinic box = (0 0 0) to (42.823045 4.987165 6.857377) with tilt (1.599503 1.454528 -5.033786)
+WARNING: Triclinic box skew is large (src/domain.cpp:224)
+  10 by 1 by 2 MPI processor grid
+  reading atoms ...
+  68 atoms
+  scanning bonds ...
+  3 = max bonds/atom
+  scanning angles ...
+  3 = max angles/atom
+  scanning dihedrals ...
+  12 = max dihedrals/atom
+  scanning impropers ...
+  3 = max impropers/atom
+  reading bonds ...
+  68 bonds
+  reading angles ...
+  100 angles
+  reading dihedrals ...
+  136 dihedrals
+  reading impropers ...
+  96 impropers
+Finding 1-2 1-3 1-4 neighbors ...
+  special bond factors lj:    0        0        1       
+  special bond factors coul:  0        0        1       
+     3 = max # of 1-2 neighbors
+     6 = max # of 1-3 neighbors
+     9 = max # of special neighbors
+  special bonds CPU = 0.001 seconds
+  read_data CPU = 0.011 seconds
+
+#### Atom Groupings ####
+group           1        id   1:68
+68 atoms in group 1
+group           1-1      id   1:6 25:26 33:36 49:53
+17 atoms in group 1-1
+group           1-2      id   7:12 27:28 37:40 54:58
+17 atoms in group 1-2
+group           1-3      id   13:18 29:30 41:44 59:63
+17 atoms in group 1-3
+group           1-4      id   19:24 31:32 45:48 64:68
+17 atoms in group 1-4
+#### END Atom Groupings ####
+
+dump           structure_xyzmov 1 xyz 100000 structure_mov.xyz
+dump_modify    structure_xyzmov element C H N O
+min_style       cg
+print           "MinStep,CellMinStep,AtomMinStep,FinalStep,Energy,EDiff" file p1_structure.min.csv screen no
+variable        min_eval   equal 1.00e-06
+variable        prev_E     equal 50000.00
+variable        iter       loop 100000
+label           loop_min
+min_style       cg
+fix             1 all box/relax tri 100000 vmax 0.05
+minimize        1.0e-15 1.0e-15 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:187)
+----------------------------------------------------------
+Using INTEL Package without Coprocessor.
+Compiler: Intel LLVM C++ 202202.0 / Intel(R) oneAPI DPC++/C++ Compiler 2022.2.1 (2022.2.1.20221020)
+SIMD compiler directives: Enabled
+Precision: mixed
+----------------------------------------------------------
+Generated 6 of 6 mixed pair_coeff terms from arithmetic mixing rule
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 14.5
+  ghost atom cutoff = 14.5
+  binsize = 7.25, bins = 7 2 1
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut/intel, perpetual
+      attributes: half, newton on, intel
+      pair build: half/bin/newton/tri/intel
+      stencil: half/bin/3d/tri
+      bin: intel
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Per MPI rank memory allocation (min/avg/max) = 15.53 | 15.86 | 16.46 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press          Volume    
+         0   0              51903.827      630.97149      52534.798      9819031.2      1464.4998    
+        15   0              1438.4604      609.96452      2048.425       213264.07      1955.5728    
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Loop time of 0.0514187 on 40 procs for 15 steps with 68 atoms
+
+88.3% CPU use with 20 MPI tasks x 2 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = linesearch alpha is zero
+  Energy initial, next-to-last, final = 
+      52534.7980107687   2012.92487606697   2764.60460985789
+  Force two-norm initial, final = 885929.31 31782.415
+  Force max component initial, final = 566699.49 24629.753
+  Final line search alpha, max atom move = 3.6504521e-17 8.9909733e-13
+  Iterations, force evaluations = 15 86
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.00010418 | 0.0038931  | 0.0069299  |   3.8 |  7.57
+Bond    | 3.1602e-05 | 0.0024289  | 0.0056377  |   4.7 |  4.72
+Neigh   | 0.010303   | 0.011585   | 0.013258   |   0.8 | 22.53
+Comm    | 0.014899   | 0.018977   | 0.025077   |   2.0 | 36.91
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 1.1146e-05 | 0.00072509 | 0.0016709  |   0.0 |  1.41
+Other   |            | 0.01381    |            |       | 26.86
+
+Nlocal:            3.4 ave          10 max           0 min
+Histogram: 5 3 1 4 1 1 2 0 0 3
+Nghost:         1605.9 ave        2107 max        1213 min
+Histogram: 4 1 4 3 0 2 1 1 0 4
+Neighs:          939.4 ave        3076 max           0 min
+Histogram: 8 2 2 1 1 1 3 1 0 1
+
+Total # of neighbors = 18788
+Ave neighs/atom = 276.29412
+Ave special neighs/atom = 4.9411765
+Neighbor list builds = 55
+Dangerous builds = 39
+unfix           1
+min_style       fire
+variable        tempstp    equal $(step)
+variable        tempstp    equal 15
+variable        CellMinStep equal ${tempstp}
+variable        CellMinStep equal 15
+minimize        1.0e-15 1.0e-15 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:187)
+----------------------------------------------------------
+Using INTEL Package without Coprocessor.
+Compiler: Intel LLVM C++ 202202.0 / Intel(R) oneAPI DPC++/C++ Compiler 2022.2.1 (2022.2.1.20221020)
+SIMD compiler directives: Enabled
+Precision: mixed
+----------------------------------------------------------
+Generated 6 of 6 mixed pair_coeff terms from arithmetic mixing rule
+  Parameters for fire: 
+    dmax delaystep dtgrow dtshrink alpha0 alphashrink tmax tmin    integrator halfstepback 
+     0.1        20    1.1      0.5   0.25        0.99   10 0.02 eulerimplicit          yes 
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Per MPI rank memory allocation (min/avg/max) = 14.4 | 14.72 | 15.33 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+        15   0              1438.4604      609.96452      2048.425       213264.07    
+     10015   0.00028106787  44.846211      26.150463      70.996731     -1136.8577    
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Loop time of 2.16668 on 40 procs for 10000 steps with 68 atoms
+
+94.3% CPU use with 20 MPI tasks x 2 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = max iterations
+  Energy initial, next-to-last, final = 
+      2048.42496612677    70.996748666802   70.9966747170096
+  Force two-norm initial, final = 8719.8648 0.54540147
+  Force max component initial, final = 4659.1161 0.24440903
+  Final line search alpha, max atom move = 0 0
+  Iterations, force evaluations = 10000 10532
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.026617   | 0.33978    | 0.62501    |  34.7 | 15.68
+Bond    | 0.0018324  | 0.22264    | 0.5965     |  50.1 | 10.28
+Neigh   | 0.00077414 | 0.00082635 | 0.00092373 |   0.0 |  0.04
+Comm    | 0.64813    | 1.0304     | 1.6577     |  31.3 | 47.56
+Output  | 4.2854e-05 | 4.3945e-05 | 5.58e-05   |   0.0 |  0.00
+Modify  | 0.00082159 | 0.085997   | 0.15948    |  18.5 |  3.97
+Other   |            | 0.487      |            |       | 22.48
+
+Nlocal:            3.4 ave          11 max           0 min
+Histogram: 8 2 3 1 1 2 0 0 0 3
+Nghost:        1600.65 ave        2099 max        1239 min
+Histogram: 4 3 1 4 2 0 2 0 0 4
+Neighs:         924.55 ave        3351 max           0 min
+Histogram: 8 2 3 1 1 1 2 1 0 1
+
+Total # of neighbors = 18491
+Ave neighs/atom = 271.92647
+Ave special neighs/atom = 4.9411765
+Neighbor list builds = 3
+Dangerous builds = 0
+variable        AtomMinStep equal $(step)
+variable        AtomMinStep equal 10015
+variable        temppe     equal $(pe)
+variable        temppe     equal 70.996674717009582878
+variable        min_E      equal abs(${prev_E}-${temppe})
+variable        min_E      equal abs(50000-${temppe})
+variable        min_E      equal abs(50000-70.9966747170096)
+print           "${iter},${CellMinStep},${AtomMinStep},${AtomMinStep},$(pe),${min_E}" append p1_structure.min.csv screen no
+if              "${min_E} < ${min_eval}" then "jump SELF break_min"
+variable        prev_E     equal ${temppe}
+variable        prev_E     equal 70.9966747170096
+next            iter
+jump            SELF loop_min
+min_style       cg
+fix             1 all box/relax tri 100000 vmax 0.05
+minimize        1.0e-15 1.0e-15 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:187)
+----------------------------------------------------------
+Using INTEL Package without Coprocessor.
+Compiler: Intel LLVM C++ 202202.0 / Intel(R) oneAPI DPC++/C++ Compiler 2022.2.1 (2022.2.1.20221020)
+SIMD compiler directives: Enabled
+Precision: mixed
+----------------------------------------------------------
+Generated 6 of 6 mixed pair_coeff terms from arithmetic mixing rule
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Per MPI rank memory allocation (min/avg/max) = 15.53 | 15.88 | 16.46 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press          Volume    
+     10015   0.00028106787  44.846207      26.150465      70.996728     -1136.868       1955.5728    
+     10168   0.00028106787  278.33715      68.903037      347.24024      108691.9       1342.1281    
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Loop time of 0.630385 on 40 procs for 153 steps with 68 atoms
+
+97.3% CPU use with 20 MPI tasks x 2 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = linesearch alpha is zero
+  Energy initial, next-to-last, final = 
+      70.9966719151412  -603.658344437553  -547.405976698038
+  Force two-norm initial, final = 4996.379 2246.6304
+  Force max component initial, final = 2894.9026 1887.473
+  Final line search alpha, max atom move = 6.5588152e-15 1.2379587e-11
+  Iterations, force evaluations = 153 1225
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0031428  | 0.060745   | 0.11769    |  16.4 |  9.64
+Bond    | 0.00042222 | 0.030351   | 0.079522   |  18.5 |  4.81
+Neigh   | 0.11845    | 0.12701    | 0.13293    |   1.3 | 20.15
+Comm    | 0.1473     | 0.2537     | 0.34136    |  13.7 | 40.25
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0.00014094 | 0.010006   | 0.020872   |   8.0 |  1.59
+Other   |            | 0.1486     |            |       | 23.57
+
+Nlocal:            3.4 ave          10 max           0 min
+Histogram: 6 1 2 4 1 1 2 0 0 3
+Nghost:        2304.85 ave        2439 max        2090 min
+Histogram: 1 2 2 2 1 0 1 5 1 5
+Neighs:         1265.8 ave        3778 max           0 min
+Histogram: 7 2 0 5 1 0 0 3 1 1
+
+Total # of neighbors = 25316
+Ave neighs/atom = 372.29412
+Ave special neighs/atom = 4.9411765
+Neighbor list builds = 507
+Dangerous builds = 336
+unfix           1
+min_style       fire
+variable        tempstp    equal $(step)
+variable        tempstp    equal 10168
+variable        CellMinStep equal ${tempstp}
+variable        CellMinStep equal 10168
+minimize        1.0e-15 1.0e-15 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:187)
+----------------------------------------------------------
+Using INTEL Package without Coprocessor.
+Compiler: Intel LLVM C++ 202202.0 / Intel(R) oneAPI DPC++/C++ Compiler 2022.2.1 (2022.2.1.20221020)
+SIMD compiler directives: Enabled
+Precision: mixed
+----------------------------------------------------------
+Generated 6 of 6 mixed pair_coeff terms from arithmetic mixing rule
+  Parameters for fire: 
+    dmax delaystep dtgrow dtshrink alpha0 alphashrink tmax tmin    integrator halfstepback 
+     0.1        20    1.1      0.5   0.25        0.99   10 0.02 eulerimplicit          yes 
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Per MPI rank memory allocation (min/avg/max) = 14.56 | 14.87 | 15.45 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+     10168   0              278.33715      68.903037      347.24019      108691.9     
+     20168   0.0025820424   31.039326      24.453738      55.49358      -944.10874    
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Loop time of 2.34451 on 40 procs for 10000 steps with 68 atoms
+
+95.1% CPU use with 20 MPI tasks x 2 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = max iterations
+  Energy initial, next-to-last, final = 
+      347.240188712579   55.4931515429035   55.4930639667003
+  Force two-norm initial, final = 604.67777 0.38653656
+  Force max component initial, final = 290.96166 0.10785653
+  Final line search alpha, max atom move = 0 0
+  Iterations, force evaluations = 10000 10529
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.04443    | 0.40503    | 0.66455    |  34.3 | 17.28
+Bond    | 0.0019657  | 0.25379    | 0.57666    |  45.4 | 10.82
+Neigh   | 0.0020238  | 0.0021044  | 0.0021714  |   0.1 |  0.09
+Comm    | 0.75924    | 1.3409     | 1.9898     |  38.1 | 57.19
+Output  | 5.2001e-05 | 5.35e-05   | 7.0566e-05 |   0.0 |  0.00
+Modify  | 0.000917   | 0.11075    | 0.17037    |  19.5 |  4.72
+Other   |            | 0.2319     |            |       |  9.89
+
+Nlocal:            3.4 ave           9 max           0 min
+Histogram: 5 1 2 3 4 1 0 1 1 2
+Nghost:        2262.55 ave        2378 max        2104 min
+Histogram: 1 3 0 1 3 1 2 3 2 4
+Neighs:        1188.75 ave        3924 max           0 min
+Histogram: 6 2 1 6 2 0 1 0 1 1
+
+Total # of neighbors = 23775
+Ave neighs/atom = 349.63235
+Ave special neighs/atom = 4.9411765
+Neighbor list builds = 4
+Dangerous builds = 0
+variable        AtomMinStep equal $(step)
+variable        AtomMinStep equal 20168
+variable        temppe     equal $(pe)
+variable        temppe     equal 55.493063966700347578
+variable        min_E      equal abs(${prev_E}-${temppe})
+variable        min_E      equal abs(70.9966747170096-${temppe})
+variable        min_E      equal abs(70.9966747170096-55.4930639667003)
+print           "${iter},${CellMinStep},${AtomMinStep},${AtomMinStep},$(pe),${min_E}" append p1_structure.min.csv screen no
+if              "${min_E} < ${min_eval}" then "jump SELF break_min"
+variable        prev_E     equal ${temppe}
+variable        prev_E     equal 55.4930639667003
+next            iter
+jump            SELF loop_min
+min_style       cg
+fix             1 all box/relax tri 100000 vmax 0.05
+minimize        1.0e-15 1.0e-15 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:187)
+----------------------------------------------------------
+Using INTEL Package without Coprocessor.
+Compiler: Intel LLVM C++ 202202.0 / Intel(R) oneAPI DPC++/C++ Compiler 2022.2.1 (2022.2.1.20221020)
+SIMD compiler directives: Enabled
+Precision: mixed
+----------------------------------------------------------
+Generated 6 of 6 mixed pair_coeff terms from arithmetic mixing rule
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Per MPI rank memory allocation (min/avg/max) = 15.68 | 16.06 | 16.58 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press          Volume    
+     20168   0.0025820424   31.03934       24.45374       55.493595     -944.12894      1342.1281    
+     20509   0.0025820424   185.07118      67.241455      252.31315      112135.58      964.83539    
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Loop time of 1.30066 on 40 procs for 341 steps with 68 atoms
+
+98.6% CPU use with 20 MPI tasks x 2 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = linesearch alpha is zero
+  Energy initial, next-to-last, final = 
+      55.4930798045748  -343.901153891231   -297.93009567689
+  Force two-norm initial, final = 3422.7895 4076.9211
+  Force max component initial, final = 1986.6446 3374.1061
+  Final line search alpha, max atom move = 9.1276696e-16 3.0797726e-12
+  Iterations, force evaluations = 341 2084
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.0054255  | 0.12597    | 0.22514    |  20.9 |  9.68
+Bond    | 0.00073496 | 0.059164   | 0.14113    |  21.8 |  4.55
+Neigh   | 0.27504    | 0.30117    | 0.31933    |   2.4 | 23.16
+Comm    | 0.31346    | 0.52513    | 0.76751    |  20.6 | 40.37
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0.00026507 | 0.024789   | 0.047452   |  10.6 |  1.91
+Other   |            | 0.2644     |            |       | 20.33
+
+Nlocal:            3.4 ave           8 max           0 min
+Histogram: 5 0 2 4 0 4 1 0 1 3
+Nghost:         3027.2 ave        3187 max        2878 min
+Histogram: 4 0 4 1 3 0 1 1 4 2
+Neighs:         1618.5 ave        4739 max           0 min
+Histogram: 5 2 1 4 3 2 1 1 0 1
+
+Total # of neighbors = 32370
+Ave neighs/atom = 476.02941
+Ave special neighs/atom = 4.9411765
+Neighbor list builds = 1060
+Dangerous builds = 606
+unfix           1
+min_style       fire
+variable        tempstp    equal $(step)
+variable        tempstp    equal 20509
+variable        CellMinStep equal ${tempstp}
+variable        CellMinStep equal 20509
+minimize        1.0e-15 1.0e-15 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:187)
+----------------------------------------------------------
+Using INTEL Package without Coprocessor.
+Compiler: Intel LLVM C++ 202202.0 / Intel(R) oneAPI DPC++/C++ Compiler 2022.2.1 (2022.2.1.20221020)
+SIMD compiler directives: Enabled
+Precision: mixed
+----------------------------------------------------------
+Generated 6 of 6 mixed pair_coeff terms from arithmetic mixing rule
+  Parameters for fire: 
+    dmax delaystep dtgrow dtshrink alpha0 alphashrink tmax tmin    integrator halfstepback 
+     0.1        20    1.1      0.5   0.25        0.99   10 0.02 eulerimplicit          yes 
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Per MPI rank memory allocation (min/avg/max) = 14.65 | 15.01 | 15.54 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+     20509   0              185.07118      67.241455      252.31264      112135.55    
+     30509   0.015197082    26.990786      23.790554      50.784374      469.06665    
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Loop time of 2.81718 on 40 procs for 10000 steps with 68 atoms
+
+96.3% CPU use with 20 MPI tasks x 2 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = max iterations
+  Energy initial, next-to-last, final = 
+      252.312636066472   50.7817064012818   50.7813391632255
+  Force two-norm initial, final = 644.04378 0.46428815
+  Force max component initial, final = 429.51068 0.08141418
+  Final line search alpha, max atom move = 0 0
+  Iterations, force evaluations = 10000 10530
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.060748   | 0.52652    | 0.72157    |  20.3 | 18.69
+Bond    | 0.002385   | 0.3098     | 0.55215    |  32.9 | 11.00
+Neigh   | 0.0013323  | 0.0014197  | 0.0015824  |   0.2 |  0.05
+Comm    | 1.0894     | 1.5328     | 2.479      |  27.2 | 54.41
+Output  | 4.7616e-05 | 4.8958e-05 | 6.0537e-05 |   0.0 |  0.00
+Modify  | 0.00096909 | 0.19029    | 0.25375    |  12.6 |  6.75
+Other   |            | 0.2563     |            |       |  9.10
+
+Nlocal:            3.4 ave           7 max           0 min
+Histogram: 1 1 5 0 4 4 0 2 2 1
+Nghost:        3010.85 ave        3144 max        2891 min
+Histogram: 2 3 1 3 3 0 3 2 2 1
+Neighs:        1525.15 ave        3148 max           0 min
+Histogram: 1 1 4 1 4 4 1 1 2 1
+
+Total # of neighbors = 30503
+Ave neighs/atom = 448.57353
+Ave special neighs/atom = 4.9411765
+Neighbor list builds = 5
+Dangerous builds = 0
+variable        AtomMinStep equal $(step)
+variable        AtomMinStep equal 30509
+variable        temppe     equal $(pe)
+variable        temppe     equal 50.781339163225453603
+variable        min_E      equal abs(${prev_E}-${temppe})
+variable        min_E      equal abs(55.4930639667003-${temppe})
+variable        min_E      equal abs(55.4930639667003-50.7813391632255)
+print           "${iter},${CellMinStep},${AtomMinStep},${AtomMinStep},$(pe),${min_E}" append p1_structure.min.csv screen no
+if              "${min_E} < ${min_eval}" then "jump SELF break_min"
+variable        prev_E     equal ${temppe}
+variable        prev_E     equal 50.7813391632255
+next            iter
+jump            SELF loop_min
+min_style       cg
+fix             1 all box/relax tri 100000 vmax 0.05
+minimize        1.0e-15 1.0e-15 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (src/min.cpp:187)
+----------------------------------------------------------
+Using INTEL Package without Coprocessor.
+Compiler: Intel LLVM C++ 202202.0 / Intel(R) oneAPI DPC++/C++ Compiler 2022.2.1 (2022.2.1.20221020)
+SIMD compiler directives: Enabled
+Precision: mixed
+----------------------------------------------------------
+Generated 6 of 6 mixed pair_coeff terms from arithmetic mixing rule
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Per MPI rank memory allocation (min/avg/max) = 15.82 | 16.24 | 16.67 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press          Volume    
+     30509   0.015197082    26.990796      23.806336      50.800167      469.06975      964.83539    
+     30553   0.015197082    2697.9342      1606.5529      4304.4901      860290.78      806.82541    
+WARNING: Bond/angle/dihedral extent > half of periodic box length (src/domain.cpp:940)
+Loop time of 0.221967 on 40 procs for 44 steps with 68 atoms
+
+99.5% CPU use with 20 MPI tasks x 2 OpenMP threads
+
+Minimization stats:
+  Stopping criterion = linesearch alpha is zero
+  Energy initial, next-to-last, final = 
+      50.7971316014728  -95.6686344558192   4074.04575818272
+  Force two-norm initial, final = 2427.619 62900.503
+  Force max component initial, final = 1427.9952 43627.798
+  Final line search alpha, max atom move = 9.3406754e-14 4.075131e-09
+  Iterations, force evaluations = 44 365
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.021878   | 0.030248   | 0.039876   |   3.4 | 13.63
+Bond    | 0.00017687 | 0.013478   | 0.02403    |   7.4 |  6.07
+Neigh   | 0.037562   | 0.04122    | 0.046225   |   1.5 | 18.57
+Comm    | 0.062976   | 0.083329   | 0.10737    |   5.2 | 37.54
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0.0023719  | 0.0067887  | 0.01005    |   3.4 |  3.06
+Other   |            | 0.0469     |            |       | 21.13
+
+Nlocal:            3.4 ave           6 max           1 min
+Histogram: 3 0 3 0 4 0 5 0 3 2
+Nghost:         3414.6 ave        3547 max        3217 min
+Histogram: 2 0 2 0 0 8 0 2 4 2
+Neighs:         1824.5 ave        3234 max         491 min
+Histogram: 3 0 3 3 1 1 4 2 1 2
+
+Total # of neighbors = 36490
+Ave neighs/atom = 536.61765
+Ave special neighs/atom = 4.9411765
+Neighbor list builds = 125
+Dangerous builds = 77

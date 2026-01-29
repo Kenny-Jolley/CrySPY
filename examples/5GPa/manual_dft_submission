@@ -1,0 +1,50 @@
+cd work/8/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/4/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/17/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/20/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/0/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/16/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/29/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/26/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/3/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+
+cd work/2/DFT
+cp /mnt/gpfs01/home/cm/cmpm4/git/CrySPY/qe_run .
+qsub qe_runscript_10
+cd ../../../../
+

@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -N g09
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=12:00:00
+#PBS -A Jolley2022a
+#PBS -q compute
+# vis, gpu
+   
+# Use less than 180GB mem
+   
+hostname
+   
+module load g09
+   
+cd $PBS_O_WORKDIR
+g09 charges.com charges.log
+   

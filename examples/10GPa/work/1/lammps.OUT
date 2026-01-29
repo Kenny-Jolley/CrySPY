@@ -1,0 +1,5 @@
+LAMMPS (23 Jun 2022 - Update 4)
+  using 2 OpenMP thread(s) per MPI task
+package intel 1
+package intel 0 omp 2
+log             log.p1_structure append

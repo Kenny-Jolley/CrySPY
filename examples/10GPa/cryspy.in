@@ -1,0 +1,30 @@
+[basic]
+algo = RS
+calc_code = LAMMPS
+tot_struc = 50
+nstage = 1
+njob = 250
+jobcmd = qsub
+jobfile = lammps_runscript
+   
+[structure]
+struc_mode = mol
+natot = 68
+atype = C H N O 
+nat = 24 8 16 20 
+mol_file = ./ddnp_mol.xyz  
+nmol = 4 
+spgnum = 1
+mindist_0 = 1.0 1.0 1.0 1.0 
+mindist_1 = 1.0 1.0 1.0 1.0 
+mindist_2 = 1.0 1.0 1.0 1.0 
+mindist_3 = 1.0 1.0 1.0 1.0 
+symprec = 0.05
+   
+[LAMMPS]
+lammps_infile = lammps.IN
+lammps_outfile = lammps.OUT
+lammps_potential = data.potentials
+lammps_data = lammps.lattice.dat
+   
+[option]

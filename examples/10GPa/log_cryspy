@@ -1,0 +1,175 @@
+[2025-07-20 19:52:53,005][cryspy_init][INFO] 
+
+
+Start CrySPY 1.3.0
+
+
+[2025-07-20 19:52:53,006][cryspy_init][INFO] # ---------- Library version info
+[2025-07-20 19:52:53,006][cryspy_init][INFO] pandas version: 2.2.3
+[2025-07-20 19:52:53,007][cryspy_init][INFO] pymatgen version: 2024.10.22
+[2025-07-20 19:52:53,007][cryspy_init][INFO] pyxtal version: 1.0.4
+[2025-07-20 19:52:53,007][cryspy_init][INFO] # ---------- Read input file, cryspy.in
+[2025-07-20 19:52:53,009][write_input][INFO] [basic]
+[2025-07-20 19:52:53,009][write_input][INFO] algo = RS
+[2025-07-20 19:52:53,010][write_input][INFO] calc_code = LAMMPS
+[2025-07-20 19:52:53,010][write_input][INFO] tot_struc = 50
+[2025-07-20 19:52:53,010][write_input][INFO] nstage = 1
+[2025-07-20 19:52:53,010][write_input][INFO] njob = 250
+[2025-07-20 19:52:53,010][write_input][INFO] jobcmd = qsub
+[2025-07-20 19:52:53,010][write_input][INFO] jobfile = lammps_runscript
+[2025-07-20 19:52:53,010][write_input][INFO] 
+[2025-07-20 19:52:53,010][write_input][INFO] [structure]
+[2025-07-20 19:52:53,010][write_input][INFO] struc_mode = mol
+[2025-07-20 19:52:53,010][write_input][INFO] natot = 68
+[2025-07-20 19:52:53,010][write_input][INFO] atype = ('C', 'H', 'N', 'O')
+[2025-07-20 19:52:53,010][write_input][INFO] nat = (24, 8, 16, 20)
+[2025-07-20 19:52:53,010][write_input][INFO] mindist_factor = 1.0
+[2025-07-20 19:52:53,010][write_input][INFO] vol_factor = 1.1
+[2025-07-20 19:52:53,010][write_input][INFO] symprec = 0.05
+[2025-07-20 19:52:53,010][write_input][INFO] spgnum = (1,)
+[2025-07-20 19:52:53,010][write_input][INFO] use_find_wy = False
+[2025-07-20 19:52:53,010][write_input][INFO] mol_file = ('./ddnp_mol.xyz',)
+[2025-07-20 19:52:53,011][write_input][INFO] nmol = (4,)
+[2025-07-20 19:52:53,011][write_input][INFO] 
+[2025-07-20 19:52:53,011][write_input][INFO] [option]
+[2025-07-20 19:52:53,011][write_input][INFO] stop_chkpt = 0
+[2025-07-20 19:52:53,011][write_input][INFO] load_struc_flag = False
+[2025-07-20 19:52:53,011][write_input][INFO] stop_next_struc = False
+[2025-07-20 19:52:53,011][write_input][INFO] append_struc_ea = False
+[2025-07-20 19:52:53,011][write_input][INFO] energy_step_flag = False
+[2025-07-20 19:52:53,011][write_input][INFO] struc_step_flag = False
+[2025-07-20 19:52:53,011][write_input][INFO] force_step_flag = False
+[2025-07-20 19:52:53,011][write_input][INFO] stress_step_flag = False
+[2025-07-20 19:52:53,011][write_input][INFO] 
+[2025-07-20 19:52:53,011][write_input][INFO] [LAMMPS]
+[2025-07-20 19:52:53,011][write_input][INFO] kpt_flag = False
+[2025-07-20 19:52:53,011][write_input][INFO] force_gamma = False
+[2025-07-20 19:52:53,011][write_input][INFO] lammps_infile = lammps.IN
+[2025-07-20 19:52:53,011][write_input][INFO] lammps_outfile = lammps.OUT
+[2025-07-20 19:52:53,011][write_input][INFO] lammps_potential = ['data.potentials']
+[2025-07-20 19:52:53,011][write_input][INFO] lammps_data = lammps.lattice.dat
+[2025-07-20 19:52:53,012][rs_gen][INFO] # ---------- Initial structure generation
+[2025-07-20 19:52:53,012][rs_gen][INFO] # ------ mindist
+[2025-07-20 19:52:53,015][struc_util][INFO] C - C: 1.8719999999999999
+[2025-07-20 19:52:53,015][struc_util][INFO] C - H: 1.308
+[2025-07-20 19:52:53,015][struc_util][INFO] C - N: 1.8719999999999999
+[2025-07-20 19:52:53,015][struc_util][INFO] C - O: 1.776
+[2025-07-20 19:52:53,015][struc_util][INFO] H - H: 0.744
+[2025-07-20 19:52:53,015][struc_util][INFO] H - N: 1.308
+[2025-07-20 19:52:53,015][struc_util][INFO] H - O: 1.212
+[2025-07-20 19:52:53,015][struc_util][INFO] N - N: 1.8719999999999999
+[2025-07-20 19:52:53,015][struc_util][INFO] N - O: 1.776
+[2025-07-20 19:52:53,015][struc_util][INFO] O - O: 1.68
+[2025-07-20 19:52:53,015][struc_util][INFO] When struc_mode is mol (only random structure, not EA part),
+- tolerance between monoatomic molecules is multiplied by 0.8 inside pyxtal (not printed above)
+- H-N, H-O, or H-F tolerance is multiplied by 0.9 inside pyxtal (not printed above)
+[2025-07-20 19:52:53,015][rs_gen][INFO] # ------ generate structures
+[2025-07-20 19:52:53,140][gen_pyxtal][INFO] Structure ID      0 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:53,341][gen_pyxtal][INFO] Structure ID      1 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:53,415][gen_pyxtal][INFO] Structure ID      2 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:53,712][gen_pyxtal][INFO] Structure ID      3 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:53,889][gen_pyxtal][INFO] Structure ID      4 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,039][gen_pyxtal][INFO] Structure ID      5 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,120][gen_pyxtal][INFO] Structure ID      6 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,250][gen_pyxtal][INFO] Structure ID      7 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,347][gen_pyxtal][INFO] Structure ID      8 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,437][gen_pyxtal][INFO] Structure ID      9 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,578][gen_pyxtal][INFO] Structure ID     10 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,729][gen_pyxtal][INFO] Structure ID     11 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,778][gen_pyxtal][INFO] Structure ID     12 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,860][gen_pyxtal][INFO] Structure ID     13 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,908][gen_pyxtal][INFO] Structure ID     14 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:54,976][gen_pyxtal][INFO] Structure ID     15 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:55,072][gen_pyxtal][INFO] Structure ID     16 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:55,561][gen_pyxtal][INFO] Structure ID     17 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:55,647][gen_pyxtal][INFO] Structure ID     18 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:55,919][gen_pyxtal][INFO] Structure ID     19 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,028][gen_pyxtal][INFO] Structure ID     20 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,114][gen_pyxtal][INFO] Structure ID     21 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,184][gen_pyxtal][INFO] Structure ID     22 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,364][gen_pyxtal][INFO] Structure ID     23 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,443][gen_pyxtal][INFO] Structure ID     24 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,503][gen_pyxtal][INFO] Structure ID     25 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,561][gen_pyxtal][INFO] Structure ID     26 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,632][gen_pyxtal][INFO] Structure ID     27 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,756][gen_pyxtal][INFO] Structure ID     28 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,873][gen_pyxtal][INFO] Structure ID     29 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:56,940][gen_pyxtal][INFO] Structure ID     30 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,005][gen_pyxtal][INFO] Structure ID     31 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,100][gen_pyxtal][INFO] Structure ID     32 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,232][gen_pyxtal][INFO] Structure ID     33 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,325][gen_pyxtal][INFO] Structure ID     34 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,374][gen_pyxtal][INFO] Structure ID     35 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,422][gen_pyxtal][INFO] Structure ID     36 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,486][gen_pyxtal][INFO] Structure ID     37 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,544][gen_pyxtal][INFO] Structure ID     38 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,647][gen_pyxtal][INFO] Structure ID     39 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,791][gen_pyxtal][INFO] Structure ID     40 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:52:57,866][gen_pyxtal][INFO] Structure ID     41 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:00,339][gen_pyxtal][INFO] Structure ID     42 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:00,520][gen_pyxtal][INFO] Structure ID     43 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:00,637][gen_pyxtal][INFO] Structure ID     44 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:01,143][gen_pyxtal][INFO] Structure ID     45 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:01,275][gen_pyxtal][INFO] Structure ID     46 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:01,976][gen_pyxtal][INFO] Structure ID     47 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:02,028][gen_pyxtal][INFO] Structure ID     48 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:02,164][gen_pyxtal][INFO] Structure ID     49 was generated. Space group:   1 -->   1 P1
+[2025-07-20 19:53:03,031][cryspy_init][INFO] Elapsed time for structure generation: 0:00:10.018599
+[2025-07-20 19:53:07,330][cryspy_restart][INFO] 
+
+
+Restart CrySPY 1.3.0
+
+
+[2025-07-20 19:53:07,330][cryspy_restart][INFO] read input, cryspy.in
+[2025-07-20 19:53:07,372][ctrl_job][INFO] # ---------- job status
+[2025-07-20 19:53:07,380][ctrl_job][INFO] ID      0: submit job, Stage 1
+[2025-07-20 19:53:07,387][ctrl_job][INFO] ID      1: submit job, Stage 1
+[2025-07-20 19:53:07,393][ctrl_job][INFO] ID      2: submit job, Stage 1
+[2025-07-20 19:53:07,399][ctrl_job][INFO] ID      3: submit job, Stage 1
+[2025-07-20 19:53:07,405][ctrl_job][INFO] ID      4: submit job, Stage 1
+[2025-07-20 19:53:07,411][ctrl_job][INFO] ID      5: submit job, Stage 1
+[2025-07-20 19:53:07,417][ctrl_job][INFO] ID      6: submit job, Stage 1
+[2025-07-20 19:53:07,422][ctrl_job][INFO] ID      7: submit job, Stage 1
+[2025-07-20 19:53:07,428][ctrl_job][INFO] ID      8: submit job, Stage 1
+[2025-07-20 19:53:07,433][ctrl_job][INFO] ID      9: submit job, Stage 1
+[2025-07-20 19:53:07,437][ctrl_job][INFO] ID     10: submit job, Stage 1
+[2025-07-20 19:53:07,441][ctrl_job][INFO] ID     11: submit job, Stage 1
+[2025-07-20 19:53:07,446][ctrl_job][INFO] ID     12: submit job, Stage 1
+[2025-07-20 19:53:07,452][ctrl_job][INFO] ID     13: submit job, Stage 1
+[2025-07-20 19:53:07,458][ctrl_job][INFO] ID     14: submit job, Stage 1
+[2025-07-20 19:53:07,463][ctrl_job][INFO] ID     15: submit job, Stage 1
+[2025-07-20 19:53:07,469][ctrl_job][INFO] ID     16: submit job, Stage 1
+[2025-07-20 19:53:07,474][ctrl_job][INFO] ID     17: submit job, Stage 1
+[2025-07-20 19:53:07,479][ctrl_job][INFO] ID     18: submit job, Stage 1
+[2025-07-20 19:53:07,484][ctrl_job][INFO] ID     19: submit job, Stage 1
+[2025-07-20 19:53:07,490][ctrl_job][INFO] ID     20: submit job, Stage 1
+[2025-07-20 19:53:07,494][ctrl_job][INFO] ID     21: submit job, Stage 1
+[2025-07-20 19:53:07,499][ctrl_job][INFO] ID     22: submit job, Stage 1
+[2025-07-20 19:53:07,504][ctrl_job][INFO] ID     23: submit job, Stage 1
+[2025-07-20 19:53:07,507][ctrl_job][INFO] ID     24: submit job, Stage 1
+[2025-07-20 19:53:07,511][ctrl_job][INFO] ID     25: submit job, Stage 1
+[2025-07-20 19:53:07,515][ctrl_job][INFO] ID     26: submit job, Stage 1
+[2025-07-20 19:53:07,518][ctrl_job][INFO] ID     27: submit job, Stage 1
+[2025-07-20 19:53:07,522][ctrl_job][INFO] ID     28: submit job, Stage 1
+[2025-07-20 19:53:07,525][ctrl_job][INFO] ID     29: submit job, Stage 1
+[2025-07-20 19:53:07,529][ctrl_job][INFO] ID     30: submit job, Stage 1
+[2025-07-20 19:53:07,533][ctrl_job][INFO] ID     31: submit job, Stage 1
+[2025-07-20 19:53:07,537][ctrl_job][INFO] ID     32: submit job, Stage 1
+[2025-07-20 19:53:07,541][ctrl_job][INFO] ID     33: submit job, Stage 1
+[2025-07-20 19:53:07,544][ctrl_job][INFO] ID     34: submit job, Stage 1
+[2025-07-20 19:53:07,548][ctrl_job][INFO] ID     35: submit job, Stage 1
+[2025-07-20 19:53:07,552][ctrl_job][INFO] ID     36: submit job, Stage 1
+[2025-07-20 19:53:07,556][ctrl_job][INFO] ID     37: submit job, Stage 1
+[2025-07-20 19:53:07,560][ctrl_job][INFO] ID     38: submit job, Stage 1
+[2025-07-20 19:53:07,564][ctrl_job][INFO] ID     39: submit job, Stage 1
+[2025-07-20 19:53:07,570][ctrl_job][INFO] ID     40: submit job, Stage 1
+[2025-07-20 19:53:07,575][ctrl_job][INFO] ID     41: submit job, Stage 1
+[2025-07-20 19:53:07,581][ctrl_job][INFO] ID     42: submit job, Stage 1
+[2025-07-20 19:53:07,586][ctrl_job][INFO] ID     43: submit job, Stage 1
+[2025-07-20 19:53:07,591][ctrl_job][INFO] ID     44: submit job, Stage 1
+[2025-07-20 19:53:07,596][ctrl_job][INFO] ID     45: submit job, Stage 1
+[2025-07-20 19:53:07,601][ctrl_job][INFO] ID     46: submit job, Stage 1
+[2025-07-20 19:53:07,605][ctrl_job][INFO] ID     47: submit job, Stage 1
+[2025-07-20 19:53:07,610][ctrl_job][INFO] ID     48: submit job, Stage 1
+[2025-07-20 19:53:07,614][ctrl_job][INFO] ID     49: submit job, Stage 1

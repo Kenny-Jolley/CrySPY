@@ -1,0 +1,28 @@
+#!/bin/bash
+#PBS -N LAMMPS-eam-N1
+#PBS -l nodes=1:ppn=20
+#PBS -l walltime=12:00:00
+#PBS -A Jolley2022a
+#PBS -q compute
+   
+module purge
+module load LAMMPS/23Jun2022-intel-2022b
+   
+export NCPUS=`wc -l < $PBS_NODEFILE`
+export OMP_NUM_THREADS=2
+   
+cd $PBS_O_WORKDIR
+   
+modify_potential.py
+prepare_cat.py
+cat lammps.lattice.dat data.potentials > all_input_data
+   
+mpirun -np $NCPUS -ppn 40 lmp_mpi -sf intel -pk intel 0 omp 2 -in lammps.IN -log lammps.OUT
+   
+if [ -e "CRASH" ] ; then
+      sed -i -e '3s/^.*$/skip/' stat_job
+      exit 1
+fi
+   
+sed -i -e '3s/^.*$/done/' stat_job
+   
